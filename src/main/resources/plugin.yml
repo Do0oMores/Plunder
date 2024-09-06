@@ -1,0 +1,6 @@
+name: Plunder
+version: '1.0-SNAPSHOT'
+main: top.mores.plunder.Plunder
+api-version: '1.18'
+authors: [ Mores ]
+description: 搜刮
