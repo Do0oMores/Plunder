@@ -4,3 +4,7 @@ main: top.mores.plunder.Plunder
 api-version: '1.18'
 authors: [ Mores ]
 description: 搜刮
+commands:
+  plunder:
+    description: Plunder command
+    usage: /plunder <>

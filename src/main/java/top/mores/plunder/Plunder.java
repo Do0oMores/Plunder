@@ -4,9 +4,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import top.mores.plunder.Command.PlunderCommand;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public final class Plunder extends JavaPlugin {
 
@@ -20,6 +22,7 @@ public final class Plunder extends JavaPlugin {
     public void onEnable() {
         instance = this;
         initFiles();
+        Objects.requireNonNull(getCommand("plunder")).setExecutor(new PlunderCommand());
         getLogger().info("Plunder has been enabled!");
     }
 
