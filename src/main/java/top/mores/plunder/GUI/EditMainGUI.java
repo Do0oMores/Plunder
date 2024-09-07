@@ -2,21 +2,28 @@ package top.mores.plunder.GUI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import top.mores.plunder.Plunder;
 import top.mores.plunder.Utils.ConfigUtil;
+import top.mores.plunder.Utils.ItemUtil;
+
+import java.util.List;
+import java.util.Map;
 
 public class EditMainGUI {
 
     ConfigUtil config = new ConfigUtil();
+    List<String> chestLvList = config.getChestLvList();
 
     public void createEditMainGUI(Player player) {
         Inventory main = Bukkit.createInventory(player, 9, "编辑搜刮物品");
-        System.out.println(config.getChestLvList());
-        for (int i = 0; i < config.getChestLvList().size(); i++) {
-            String name = config.getChestLvList().get(i);
+        System.out.println(chestLvList);
+        for (int i = 0; i < chestLvList.size(); i++) {
+            String name = chestLvList.get(i);
 
             ItemStack chest = new ItemStack(Material.CHEST);
             ItemMeta meta = chest.getItemMeta();
@@ -30,6 +37,22 @@ public class EditMainGUI {
             main.setItem(i, chest);
         }
         player.openInventory(main);
+    }
+
+    public void editGUI(Player player, int slot) {
+        Inventory GUI = Bukkit.createInventory(player, 27, chestLvList.get(slot));
+        for (ItemStack itemStack : GUIItems(slot)) {
+            GUI.setItem(slot, itemStack);
+        }
+        player.openInventory(GUI);
+    }
+
+    public ItemStack[] GUIItems(int slot) {
+        FileConfiguration config = Plunder.getInstance().getConfig();
+        String path = "箱子数据." + chestLvList.get(slot);
+        List<Map<String, Object>> list = config.contains(path) ?
+                (List<Map<String, Object>>) config.getList(path) : null;
+        return (list != null ? ItemUtil.getItemStacksFromConfig(list) : new ItemStack[0]);
     }
 }
 
