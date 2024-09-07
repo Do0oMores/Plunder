@@ -157,6 +157,7 @@ public class ItemUtil {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static ItemStack[] getItemStacksFromConfig(List<?> mapList) {
         ItemStack[] result = new ItemStack[mapList.size()];
         for (int i = 0; i < mapList.size(); i++) {

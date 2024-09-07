@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.GUI.EditMainGUI;
 import top.mores.plunder.GUI.LoadGUI;
 import top.mores.plunder.Plunder;
@@ -77,14 +78,17 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onCloseInventory(InventoryCloseEvent event) {
         String title = event.getView().getTitle();
+
         if (!configUtil.getChestLvList().contains(title)) {
             return;
         }
+
         Inventory inventory = event.getInventory();
         List<Map<String, Object>> items = Arrays.stream(inventory.getContents())
                 .filter(Objects::nonNull)
                 .map(ItemUtil::getItemStackMap)
                 .collect(Collectors.toList());
+        // 保存到配置文件中
         Plunder.getInstance().getConfig().set("箱子数据." + title, items);
         Plunder.getInstance().saveConfig();
     }

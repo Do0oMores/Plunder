@@ -21,7 +21,6 @@ public class EditMainGUI {
 
     public void createEditMainGUI(Player player) {
         Inventory main = Bukkit.createInventory(player, 9, "编辑搜刮物品");
-        System.out.println(chestLvList);
         for (int i = 0; i < chestLvList.size(); i++) {
             String name = chestLvList.get(i);
 
@@ -41,9 +40,15 @@ public class EditMainGUI {
 
     public void editGUI(Player player, int slot) {
         Inventory GUI = Bukkit.createInventory(player, 27, chestLvList.get(slot));
-        for (ItemStack itemStack : GUIItems(slot)) {
-            GUI.setItem(slot, itemStack);
+        // 获取对应槽位的物品列表
+        ItemStack[] items = GUIItems(slot);
+        // 将每个物品放入GUI中对应的位置
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null) {
+                GUI.setItem(i, items[i]);
+            }
         }
+        // 打开GUI给玩家
         player.openInventory(GUI);
     }
 
