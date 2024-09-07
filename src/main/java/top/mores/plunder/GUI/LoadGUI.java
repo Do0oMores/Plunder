@@ -1,15 +1,19 @@
 package top.mores.plunder.GUI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.Plunder;
+import top.mores.plunder.Utils.DataUtil;
 
 public class LoadGUI {
 
-    public void createLoadGUI(Player player) {
+    DataUtil data = new DataUtil();
+
+    public void createLoadGUI(Player player, Location loc) {
 
         Inventory inventory = Bukkit.createInventory(player, 9, "§c搜刮中...");
 
@@ -33,6 +37,7 @@ public class LoadGUI {
             } else if (progress[0] == 9) {
                 // 所有格子加载完成后，停顿1秒进行下一个操作
                 Bukkit.getScheduler().runTaskLater(Plunder.getInstance(), player::closeInventory, 20L);
+                data.saveChestData(loc, System.currentTimeMillis());
                 task.cancel(); // 停止当前任务
             }
         }, 0L, 10L);

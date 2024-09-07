@@ -14,4 +14,8 @@ public class ConfigUtil {
     public boolean onPlunderWorld(String world) {
         return allowPlunderWorlds.contains(world);
     }
+
+    public long getPlunderTime(){
+        return config.getLong("箱子搜刮间隔",600L);
+    }
 }
