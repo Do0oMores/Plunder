@@ -10,6 +10,7 @@ import top.mores.plunder.Utils.ConfigUtil;
 import top.mores.plunder.Utils.ProbabilityRandomizerUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -36,14 +37,16 @@ public class PlunderChest {
     }
 
     public ItemStack[] getRandomItemsFromChest(String chestName, int itemCount) {
+        // 获取该品阶对应的物品列表
         ItemStack[] allItems = configUtil.getItemsFromChest(chestName);
+        List<ItemStack> itemList = new ArrayList<>(Arrays.asList(allItems));
         List<ItemStack> selectedItems = new ArrayList<>();
-        itemCount = Math.min(itemCount, allItems.length);
 
+        itemCount = Math.min(itemCount, itemList.size());
         Random random = new Random();
         for (int i = 0; i < itemCount; i++) {
-            int randomIndex = random.nextInt(allItems.length);
-            ItemStack item = allItems[randomIndex].clone();  // 克隆原物品
+            int randomIndex = random.nextInt(itemList.size());
+            ItemStack item = itemList.remove(randomIndex).clone();
             selectedItems.add(item);
         }
         return selectedItems.toArray(new ItemStack[0]);
