@@ -21,21 +21,20 @@ public class LoadGUI {
 
         player.openInventory(inventory);
 
-        // 开始10秒的进度加载
+        // 开始5秒的进度加载
         final int[] progress = {0};
 
         Bukkit.getScheduler().runTaskTimer(Plunder.getInstance(), task -> {
             if (progress[0] < 9) {
                 // 将对应的玻璃板从灰色变成绿色
-                ItemStack greenGlass = new ItemStack(Material.GREEN_STAINED_GLASS_PANE);
+                ItemStack greenGlass = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
                 inventory.setItem(progress[0], greenGlass);
                 progress[0]++;
             } else if (progress[0] == 9) {
                 // 所有格子加载完成后，停顿1秒进行下一个操作
-
                 Bukkit.getScheduler().runTaskLater(Plunder.getInstance(), player::closeInventory, 20L);
                 task.cancel(); // 停止当前任务
             }
-        }, 0L, 20L);
+        }, 0L, 10L);
     }
 }
