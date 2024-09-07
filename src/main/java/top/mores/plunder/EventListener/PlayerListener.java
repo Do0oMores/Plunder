@@ -25,6 +25,7 @@ public class PlayerListener implements Listener {
         if (configUtil.onPlunderWorld(player.getWorld().getName()) &&
                 event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
                 Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.CHEST)) {
+
             event.setCancelled(true);
             Location loc = event.getClickedBlock().getLocation();
 
