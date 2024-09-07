@@ -14,7 +14,6 @@ import top.mores.plunder.Plunder;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Optional.ofNullable;
 import static org.bukkit.configuration.serialization.ConfigurationSerialization.deserializeObject;
 
 public class ItemUtil {
@@ -84,9 +83,7 @@ public class ItemUtil {
                 }
 
                 // Simplify custom potion effects
-                if (meta instanceof PotionMeta) {
-                    PotionMeta potionMeta = (PotionMeta) meta;
-
+                if (meta instanceof PotionMeta potionMeta) {
                     if (potionMeta.hasCustomEffects()) {
                         List<Map<String, Object>> customEffectMeta = potionMeta.getCustomEffects().stream()
                                 .map(PotionEffect::serialize)
@@ -94,14 +91,13 @@ public class ItemUtil {
                         metaMap.put("custom-effects", customEffectMeta);
 
                         if (potionMeta.hasColor()) {
-                            metaMap.put("custom-color", potionMeta.getColor().serialize());
+                            metaMap.put("custom-color", Objects.requireNonNull(potionMeta.getColor()).serialize());
                         }
                     }
                 }
             }
             result.put("meta", metaMap);
         }
-
         return result;
     }
 
@@ -164,11 +160,5 @@ public class ItemUtil {
             result[i] = deserialize((Map<String, Object>) mapList.get(i));
         }
         return result;
-    }
-
-    public static ItemStack[] cloneItemStacks(ItemStack[] itemStackArray) {
-        return Arrays.stream(itemStackArray)
-                .map(itemStack -> ofNullable(itemStack).map(ItemStack::new).orElse(null))
-                .toArray(ItemStack[]::new);
     }
 }
