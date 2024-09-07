@@ -12,19 +12,18 @@ import top.mores.plunder.Utils.DataUtil;
 public class LoadGUI {
 
     DataUtil data = new DataUtil();
+    PlunderChest plunderChest = new PlunderChest();
 
     public void createLoadGUI(Player player, Location loc) {
 
         Inventory inventory = Bukkit.createInventory(player, 9, "§c搜刮中...");
-
-        // 初始化GUI，放置灰色玻璃板表示总进程
+        // 初始化GUI
         ItemStack grayGlass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         for (int i = 0; i < inventory.getSize(); i++) {
             inventory.setItem(i, grayGlass);
         }
 
         player.openInventory(inventory);
-
         // 开始5秒的进度加载
         final int[] progress = {0};
 
@@ -35,9 +34,8 @@ public class LoadGUI {
                 inventory.setItem(progress[0], greenGlass);
                 progress[0]++;
             } else if (progress[0] == 9) {
-                // 所有格子加载完成后，停顿1秒进行下一个操作
-                Bukkit.getScheduler().runTaskLater(Plunder.getInstance(), player::closeInventory, 20L);
                 data.saveChestData(loc, System.currentTimeMillis());
+                plunderChest.createPlunderChest(player);
                 task.cancel(); // 停止当前任务
             }
         }, 0L, 10L);

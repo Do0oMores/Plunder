@@ -1,10 +1,12 @@
 package top.mores.plunder.Utils;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.Plunder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ConfigUtil {
@@ -23,5 +25,12 @@ public class ConfigUtil {
 
     public List<String> getChestLvList(){
         return new ArrayList<>(Objects.requireNonNull(config.getConfigurationSection("箱子数据")).getKeys(false));
+    }
+
+    public ItemStack[] getItemsFromChest(String chestName) {
+        FileConfiguration config = Plunder.getInstance().getConfig();
+        String path = "箱子数据." + chestName;
+        List<Map<String, Object>> list = config.contains(path) ? (List<Map<String, Object>>) config.getList(path) : null;
+        return (list != null ? ItemUtil.getItemStacksFromConfig(list) : new ItemStack[0]);
     }
 }

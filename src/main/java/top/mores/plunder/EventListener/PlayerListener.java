@@ -10,7 +10,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.GUI.EditMainGUI;
 import top.mores.plunder.GUI.LoadGUI;
 import top.mores.plunder.Plunder;
@@ -37,7 +36,6 @@ public class PlayerListener implements Listener {
         if (configUtil.onPlunderWorld(player.getWorld().getName()) &&
                 event.getAction().equals(Action.RIGHT_CLICK_BLOCK) &&
                 Objects.requireNonNull(event.getClickedBlock()).getType().equals(Material.CHEST)) {
-
             event.setCancelled(true);
             Location loc = event.getClickedBlock().getLocation();
 
@@ -82,7 +80,6 @@ public class PlayerListener implements Listener {
         if (!configUtil.getChestLvList().contains(title)) {
             return;
         }
-
         Inventory inventory = event.getInventory();
         List<Map<String, Object>> items = Arrays.stream(inventory.getContents())
                 .filter(Objects::nonNull)

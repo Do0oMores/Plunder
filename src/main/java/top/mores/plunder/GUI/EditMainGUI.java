@@ -48,7 +48,6 @@ public class EditMainGUI {
                 GUI.setItem(i, items[i]);
             }
         }
-        // 打开GUI给玩家
         player.openInventory(GUI);
     }
 
