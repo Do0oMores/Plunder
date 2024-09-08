@@ -2,6 +2,7 @@ package top.mores.plunder.GUI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -21,6 +22,17 @@ public class PlunderChest {
 
     public void createPlunderChest(Player player) {
         String chestName = probabilityRandomizerUtil.getRandomRarity();
+        if (configUtil.getSuperLvList().contains(chestName)) {
+            Location loc = player.getLocation();
+            for (Player p : player.getWorld().getPlayers()) {
+                p.sendMessage(ChatColor.RED + "【NOTE！】" +
+                        ChatColor.GOLD + player.getName() +
+                        ChatColor.BLUE + "在" +
+                        ChatColor.GREEN + loc +
+                        ChatColor.BLUE + "开出了" +
+                        ChatColor.RED + chestName);
+            }
+        }
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         Inventory chest = Bukkit.createInventory(player, 18, ChatColor.GOLD + chestName + "箱子");
 

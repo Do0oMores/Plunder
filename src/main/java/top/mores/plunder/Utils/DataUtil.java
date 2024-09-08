@@ -58,7 +58,6 @@ public class DataUtil {
     // 计算下一个 loc 编号
     private int getNextLocIndex() {
         int maxIndex = 0;
-
         // 遍历现有的所有键，查找最大的 loc 编号
         for (String key : data.getKeys(false)) {
             if (key.startsWith("loc")) {

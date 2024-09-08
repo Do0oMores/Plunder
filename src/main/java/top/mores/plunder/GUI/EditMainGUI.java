@@ -39,7 +39,7 @@ public class EditMainGUI {
     }
 
     public void editGUI(Player player, int slot) {
-        Inventory GUI = Bukkit.createInventory(player, 27, chestLvList.get(slot));
+        Inventory GUI = Bukkit.createInventory(player, 18, chestLvList.get(slot));
         // 获取对应槽位的物品列表
         ItemStack[] items = GUIItems(slot);
         // 将每个物品放入GUI中对应的位置

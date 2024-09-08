@@ -33,4 +33,8 @@ public class ConfigUtil {
         List<Map<String, Object>> list = config.contains(path) ? (List<Map<String, Object>>) config.getList(path) : null;
         return (list != null ? ItemUtil.getItemStacksFromConfig(list) : new ItemStack[0]);
     }
+
+    public List<String> getSuperLvList(){
+        return config.getStringList("箱子数据.公告箱子品阶");
+    }
 }
