@@ -9,6 +9,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
 import top.mores.plunder.GUI.EditMainGUI;
 import top.mores.plunder.GUI.LoadGUI;
@@ -88,5 +89,14 @@ public class PlayerListener implements Listener {
         // 保存到配置文件中
         Plunder.getInstance().getConfig().set("箱子数据." + title, items);
         Plunder.getInstance().saveConfig();
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        if (!configUtil.onPlunderWorld(player.getWorld().getName())) {
+            return;
+        }
+        configUtil.playerLeave(player);
     }
 }
