@@ -25,12 +25,12 @@ public class PlunderChest {
         if (configUtil.getSuperLvList().contains(chestName)) {
             Location loc = player.getLocation();
             for (Player p : player.getWorld().getPlayers()) {
-                p.sendMessage(ChatColor.RED + "【NOTE！】" +
+                p.sendMessage(ChatColor.DARK_AQUA + "【NOTE！】" +
                         ChatColor.GOLD + player.getName() +
-                        ChatColor.BLUE + "在" +
-                        ChatColor.GREEN + loc +
-                        ChatColor.BLUE + "开出了" +
-                        ChatColor.RED + chestName);
+                        ChatColor.BLUE + "在 " +
+                        ChatColor.GREEN + Math.round(loc.getX()) + "," + Math.round(loc.getY()) + "," + Math.round(loc.getZ()) +
+                        ChatColor.BLUE + " 开出了" +
+                        ChatColor.RED + chestName + "宝箱");
             }
         }
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
