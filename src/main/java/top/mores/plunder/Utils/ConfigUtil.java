@@ -1,7 +1,9 @@
 package top.mores.plunder.Utils;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +17,9 @@ public class ConfigUtil {
 
     FileConfiguration config = Plunder.getInstance().getConfig();
 
-    private final List<String> allowPlunderWorlds = config.getStringList("允许搜刮的世界");
+    private List<String> allowPlunderWorlds() {
+        return config.getStringList("允许搜刮的世界");
+    }
 
     private final Map<UUID, BukkitTask> countdownTasks = new HashMap<>();
 
@@ -26,7 +30,7 @@ public class ConfigUtil {
      * @return boolean
      */
     public boolean onPlunderWorld(String world) {
-        return allowPlunderWorlds.contains(world);
+        return allowPlunderWorlds().contains(world);
     }
 
     public long getPlunderTime() {
@@ -52,6 +56,22 @@ public class ConfigUtil {
         return config.getInt("撤离范围");
     }
 
+    private World leaveWorld() {
+        return Bukkit.getWorld(Objects.requireNonNull(config.getString("撤离传送点.world")));
+    }
+    private double leavePointX(){
+        return config.getDouble("撤离传送点.x");
+    }
+    private double leavePointY(){
+        return config.getDouble("撤离传送点.y");
+    }
+    private double leavePointZ(){
+        return config.getDouble("撤离传送点.z");
+    }
+    private int countdownTime(){
+        return config.getInt("撤离时间");
+    }
+
     public void playerLeave(Player player) {
         Location loc = player.getLocation();
         UUID playerUUID = player.getUniqueId();
@@ -66,7 +86,6 @@ public class ConfigUtil {
             if (!Objects.requireNonNull(loc.getWorld()).getName().equals(worldName)) {
                 continue;
             }
-
             Location evacuateLoc = new Location(loc.getWorld(), locX, locY, locZ);
             double distance = loc.distance(evacuateLoc);
             // 如果玩家进入撤离范围
@@ -97,17 +116,14 @@ public class ConfigUtil {
             }
             countdownTasks.remove(playerUUID); // 移除旧任务记录
         }
-        final int countdownTime = 10; // 倒计时总秒数
-
         BukkitRunnable countdownRunnable = new BukkitRunnable() {
-            int timeLeft = countdownTime;
+            int timeLeft = countdownTime();
             @Override
             public void run() {
                 if (timeLeft > 0) {
-
                     player.sendTitle(
-                            ChatColor.GREEN + "倒计时: " + timeLeft,
-                            ChatColor.YELLOW + "在 " + locKey + " 内保持位置",
+                            ChatColor.GREEN + "将在 " + timeLeft + " 秒后撤离",
+                            ChatColor.YELLOW + "请保持位置",
                             10, 20, 10
                     );
                 } else {
@@ -129,7 +145,6 @@ public class ConfigUtil {
         countdownTasks.put(playerUUID, task);
     }
 
-
     private void executeNextStep(Player player) {
         UUID playerUUID = player.getUniqueId();
         // 确保倒计时结束后不会重复执行
@@ -138,9 +153,13 @@ public class ConfigUtil {
         }
         // 执行倒计时结束后的传送逻辑
         player.sendMessage(ChatColor.GOLD + "撤离成功！");
-        Location loc = new Location(player.getWorld(), -1018.0, 54.0, -786.0);
-        player.teleport(loc);
-        // 取消任务和移除记录以防止重复执行
-        countdownTasks.remove(playerUUID);
+        if (leaveWorld() != null) {
+            Location loc = new Location(leaveWorld(), leavePointX(), leavePointY(), leavePointZ());
+            player.teleport(loc);
+            // 取消任务和移除记录以防止重复执行
+            countdownTasks.remove(playerUUID);
+        } else {
+            player.sendMessage(ChatColor.RED + "无法找到指定的世界");
+        }
     }
 }
