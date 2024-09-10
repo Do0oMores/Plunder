@@ -72,6 +72,14 @@ public class ConfigUtil {
         return config.getInt("撤离时间");
     }
 
+    public int getMinVault(String lv){
+        return config.getInt("箱子金币奖励."+lv+".min");
+    }
+
+    public int getMaxVault(String lv){
+        return config.getInt("箱子金币奖励."+lv+".max");
+    }
+
     public void playerLeave(Player player) {
         Location loc = player.getLocation();
         UUID playerUUID = player.getUniqueId();

@@ -59,4 +59,3 @@ public class EditMainGUI {
         return (list != null ? ItemUtil.getItemStacksFromConfig(list) : new ItemStack[0]);
     }
 }
-
