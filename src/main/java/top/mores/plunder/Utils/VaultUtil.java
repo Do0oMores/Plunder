@@ -37,7 +37,7 @@ public class VaultUtil {
             System.out.println("Vault not setup");
             return;
         }
-        double amount = randomAmount(config.getMinVault(lv), config.getMaxVault(lv));
+        double amount = Math.round(randomAmount(config.getMinVault(lv), config.getMaxVault(lv)) * 100.0 / 100.0);
         EconomyResponse resp = economy.depositPlayer(player, amount);
         if (resp.transactionSuccess()) {
             player.sendMessage(ChatColor.GREEN + "您因搜刮" +
