@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.Utils.ConfigUtil;
 import top.mores.plunder.Utils.ProbabilityRandomizerUtil;
+import top.mores.plunder.Utils.VaultUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +20,11 @@ public class PlunderChest {
 
     ProbabilityRandomizerUtil probabilityRandomizerUtil = new ProbabilityRandomizerUtil();
     ConfigUtil configUtil = new ConfigUtil();
+    VaultUtil vaultUtil = new VaultUtil();
 
     public void createPlunderChest(Player player) {
         String chestName = probabilityRandomizerUtil.getRandomRarity();
+        vaultUtil.addPlayerVault(player, chestName);
         if (configUtil.getSuperLvList().contains(chestName)) {
             Location loc = player.getLocation();
             for (Player p : player.getWorld().getPlayers()) {

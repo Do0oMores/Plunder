@@ -16,26 +16,26 @@
 箱子搜刮间隔: 10
 箱子金币奖励:
   普通:
-    min: 1
-    max: 5
+    min: 1.0
+    max: 5.0
   高级:
-    min:
-    max:
+    min: 6.0
+    max: 10.0
   稀有:
-    min:
-    max:
+    min: 11.0
+    max: 15.0
   史诗:
-    min:
-    max:
+    min: 16.0
+    max: 20.0
   传奇:
-    min:
-    max:
+    min: 21.0
+    max: 25.0
   绝世:
-    min:
-    max:
+    min: 26.0
+    max: 30.0
   神话:
-    min:
-    max:
+    min: 31.0
+    max: 35.0
 公告箱子品阶:
   - 传奇
   - 绝世

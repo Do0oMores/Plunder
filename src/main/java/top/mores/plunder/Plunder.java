@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import top.mores.plunder.Command.PlunderCommand;
 import top.mores.plunder.EventListener.PlayerListener;
+import top.mores.plunder.Utils.VaultUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +23,11 @@ public final class Plunder extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        if (!VaultUtil.setupEconomy()) {
+            getLogger().severe("Vault plugin not found! Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         initFiles();
         Objects.requireNonNull(getCommand("plunder")).setExecutor(new PlunderCommand());
         this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);

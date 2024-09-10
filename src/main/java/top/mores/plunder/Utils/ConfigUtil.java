@@ -59,25 +59,29 @@ public class ConfigUtil {
     private World leaveWorld() {
         return Bukkit.getWorld(Objects.requireNonNull(config.getString("撤离传送点.world")));
     }
-    private double leavePointX(){
+
+    private double leavePointX() {
         return config.getDouble("撤离传送点.x");
     }
-    private double leavePointY(){
+
+    private double leavePointY() {
         return config.getDouble("撤离传送点.y");
     }
-    private double leavePointZ(){
+
+    private double leavePointZ() {
         return config.getDouble("撤离传送点.z");
     }
-    private int countdownTime(){
+
+    private int countdownTime() {
         return config.getInt("撤离时间");
     }
 
-    public int getMinVault(String lv){
-        return config.getInt("箱子金币奖励."+lv+".min");
+    public double getMinVault(String lv) {
+        return config.getDouble("箱子金币奖励." + lv + ".min");
     }
 
-    public int getMaxVault(String lv){
-        return config.getInt("箱子金币奖励."+lv+".max");
+    public double getMaxVault(String lv) {
+        return config.getDouble("箱子金币奖励." + lv + ".max");
     }
 
     public void playerLeave(Player player) {
@@ -126,6 +130,7 @@ public class ConfigUtil {
         }
         BukkitRunnable countdownRunnable = new BukkitRunnable() {
             int timeLeft = countdownTime();
+
             @Override
             public void run() {
                 if (timeLeft > 0) {
