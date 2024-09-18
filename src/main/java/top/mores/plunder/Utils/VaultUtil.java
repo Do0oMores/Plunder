@@ -32,6 +32,7 @@ public class VaultUtil {
         return true;
     }
 
+    //增加玩家经济
     public void addPlayerVault(Player player, String lv) {
         if (economy == null) {
             System.out.println("Vault not setup");

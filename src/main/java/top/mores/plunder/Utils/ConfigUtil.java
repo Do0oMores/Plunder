@@ -33,6 +33,7 @@ public class ConfigUtil {
         return allowPlunderWorlds().contains(world);
     }
 
+    //获取搜刮间隔
     public long getPlunderTime() {
         return config.getLong("箱子搜刮间隔", 600L);
     }

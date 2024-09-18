@@ -39,10 +39,12 @@ public final class Plunder extends JavaPlugin {
         getLogger().info("Plunder has been disabled!");
     }
 
+    //获取插件实例
     public static Plunder getInstance() {
         return instance;
     }
 
+    //获取config.yml
     @Override
     @NotNull
     public FileConfiguration getConfig() {
@@ -52,6 +54,7 @@ public final class Plunder extends JavaPlugin {
         return config;
     }
 
+    //获取data
     public FileConfiguration getData() {
         if (data == null) {
             reloadData();
@@ -67,6 +70,7 @@ public final class Plunder extends JavaPlugin {
         data= YamlConfiguration.loadConfiguration(dataFile);
     }
 
+    //保存data
     public void saveData(){
         try{
             data.save(dataFile);

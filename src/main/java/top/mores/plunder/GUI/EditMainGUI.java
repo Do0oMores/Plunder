@@ -19,6 +19,10 @@ public class EditMainGUI {
     ConfigUtil config = new ConfigUtil();
     List<String> chestLvList = config.getChestLvList();
 
+    /**
+     * 创建编辑搜刮物品主界面
+     * @param player 打开主界面的玩家
+     */
     public void createEditMainGUI(Player player) {
         Inventory main = Bukkit.createInventory(player, 9, "编辑搜刮物品");
         for (int i = 0; i < chestLvList.size(); i++) {
@@ -38,6 +42,11 @@ public class EditMainGUI {
         player.openInventory(main);
     }
 
+    /**
+     * 创建并打开编辑界面
+     * @param player 打开编辑界面的玩家
+     * @param slot 点击了编辑主界面的哪个格子
+     */
     public void editGUI(Player player, int slot) {
         Inventory GUI = Bukkit.createInventory(player, 18, chestLvList.get(slot));
         // 获取对应槽位的物品列表
@@ -51,6 +60,11 @@ public class EditMainGUI {
         player.openInventory(GUI);
     }
 
+    /**
+     * 编辑界面的物品
+     * @param slot 对应编辑主界面的格子数
+     * @return 物品组
+     */
     public ItemStack[] GUIItems(int slot) {
         FileConfiguration config = Plunder.getInstance().getConfig();
         String path = "箱子数据." + chestLvList.get(slot);

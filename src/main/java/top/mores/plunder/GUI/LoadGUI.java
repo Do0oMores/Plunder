@@ -14,8 +14,12 @@ public class LoadGUI {
     DataUtil data = new DataUtil();
     PlunderChest plunderChest = new PlunderChest();
 
+    /**
+     * 创建搜刮界面
+     * @param player 打开搜刮界面的玩家
+     * @param loc 搜刮箱子的坐标
+     */
     public void createLoadGUI(Player player, Location loc) {
-
         Inventory inventory = Bukkit.createInventory(player, 9, "§c搜刮中...");
         // 初始化GUI
         ItemStack grayGlass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);

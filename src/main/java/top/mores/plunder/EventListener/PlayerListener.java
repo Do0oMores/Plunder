@@ -31,6 +31,10 @@ public class PlayerListener implements Listener {
     DataUtil dataUtil = new DataUtil();
     EditMainGUI editMainGUI = new EditMainGUI();
 
+    /**
+     * 监听玩家打开箱子事件
+     * @param event 玩家点击事件
+     */
     @EventHandler
     public void onPlayerOpenChest(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -57,6 +61,10 @@ public class PlayerListener implements Listener {
         }
     }
 
+    /**
+     * 监听玩家点击容器（箱子）内格子事件
+     * @param event 容器点击事件
+     */
     @EventHandler
     public void onPlayerClickInventory(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
@@ -74,6 +82,10 @@ public class PlayerListener implements Listener {
         event.setCancelled(true);
     }
 
+    /**
+     * 监听玩家关闭容器事件
+     * @param event 容器关闭事件
+     */
     @EventHandler
     public void onCloseInventory(InventoryCloseEvent event) {
         String title = event.getView().getTitle();
@@ -91,6 +103,10 @@ public class PlayerListener implements Listener {
         Plunder.getInstance().saveConfig();
     }
 
+    /**
+     * 监听玩家移动事件
+     * @param event 玩家移动事件
+     */
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

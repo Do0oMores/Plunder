@@ -24,7 +24,6 @@ public class DataUtil {
             data.set(locKey + ".z", loc.getZ());
             data.set(locKey + ".time", time);
         }
-
         // 保存配置数据
         Plunder.getInstance().saveData();
     }

@@ -22,6 +22,10 @@ public class PlunderChest {
     ConfigUtil configUtil = new ConfigUtil();
     VaultUtil vaultUtil = new VaultUtil();
 
+    /**
+     * 创建搜刮箱子
+     * @param player 打开搜刮箱子的玩家
+     */
     public void createPlunderChest(Player player) {
         String chestName = probabilityRandomizerUtil.getRandomRarity();
         vaultUtil.addPlayerVault(player, chestName);
@@ -51,6 +55,12 @@ public class PlunderChest {
         player.openInventory(chest);
     }
 
+    /**
+     * 加载随机的物品组放入搜刮箱中
+     * @param chestName 箱子名
+     * @param itemCount 物品数
+     * @return 物品组
+     */
     public ItemStack[] getRandomItemsFromChest(String chestName, int itemCount) {
         // 获取该品阶对应的物品列表
         ItemStack[] allItems = configUtil.getItemsFromChest(chestName);
