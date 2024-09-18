@@ -36,7 +36,6 @@ public class EditMainGUI {
                 meta.setDisplayName("§6" + name + " 箱子");
                 chest.setItemMeta(meta);
             }
-
             main.setItem(i, chest);
         }
         player.openInventory(main);

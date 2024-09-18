@@ -74,7 +74,7 @@ public class PlayerListener implements Listener {
             return;
         }
         int slot = event.getSlot();
-        if (slot > configUtil.getChestLvList().size()) {
+        if (slot >= configUtil.getChestLvList().size()) {
             event.setCancelled(true);
             return;
         }
