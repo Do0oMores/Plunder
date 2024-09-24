@@ -101,9 +101,9 @@ public class ItemUtil {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     private static ItemStack deserialize(Map<String, Object> args) {
         int amount = 1;
-
         Material type = Material.getMaterial((String) args.get("type"));
 
         if (type != null) {

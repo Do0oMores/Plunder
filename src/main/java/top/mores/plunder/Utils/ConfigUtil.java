@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import top.mores.plunder.Plunder;
@@ -42,11 +41,9 @@ public class ConfigUtil {
         return new ArrayList<>(Objects.requireNonNull(config.getConfigurationSection("箱子数据")).getKeys(false));
     }
 
-    public ItemStack[] getItemsFromChest(String chestName) {
-        FileConfiguration config = Plunder.getInstance().getConfig();
-        String path = "箱子数据." + chestName;
-        List<Map<String, Object>> list = config.contains(path) ? (List<Map<String, Object>>) config.getList(path) : null;
-        return (list != null ? ItemUtil.getItemStacksFromConfig(list) : new ItemStack[0]);
+    public List<Map<String, Object>> getItemData(String chestName) {
+        String path="箱子数据." + chestName;
+        return config.contains(path) ? (List<Map<String, Object>>) config.getList(path) : null;
     }
 
     public List<String> getSuperLvList() {

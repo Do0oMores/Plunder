@@ -1,20 +1,15 @@
 package top.mores.plunder.GUI;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import top.mores.plunder.Utils.ConfigUtil;
+import top.mores.plunder.Utils.ItemUtil;
 import top.mores.plunder.Utils.ProbabilityRandomizerUtil;
 import top.mores.plunder.Utils.VaultUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class PlunderChest {
 
@@ -24,6 +19,7 @@ public class PlunderChest {
 
     /**
      * 创建搜刮箱子
+     *
      * @param player 打开搜刮箱子的玩家
      */
     public void createPlunderChest(Player player) {
@@ -46,34 +42,51 @@ public class PlunderChest {
         Random random = new Random();
         int randomItemCount = random.nextInt(5) + 1;
         ItemStack[] items = getRandomItemsFromChest(chestName, randomItemCount);
-        // 将随机选中的物品依次放入箱子
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null) {
-                chest.setItem(i, items[i]);
+        if (items != null) {
+            // 将随机选中的物品依次放入箱子
+            for (int i = 0; i < items.length; i++) {
+                if (items[i] != null) {
+                    chest.setItem(i, items[i]);
+                }
             }
+        } else {
+            player.sendMessage("你打开了一个空的搜刮箱");
         }
         player.openInventory(chest);
     }
 
-    /**
-     * 加载随机的物品组放入搜刮箱中
-     * @param chestName 箱子名
-     * @param itemCount 物品数
-     * @return 物品组
-     */
     public ItemStack[] getRandomItemsFromChest(String chestName, int itemCount) {
-        // 获取该品阶对应的物品列表
-        ItemStack[] allItems = configUtil.getItemsFromChest(chestName);
-        List<ItemStack> itemList = new ArrayList<>(Arrays.asList(allItems));
+        List<Map<String, Object>> itemData = configUtil.getItemData(chestName);
         List<ItemStack> selectedItems = new ArrayList<>();
-
-        itemCount = Math.min(itemCount, itemList.size());
         Random random = new Random();
-        for (int i = 0; i < itemCount; i++) {
-            int randomIndex = random.nextInt(itemList.size());
-            ItemStack item = itemList.remove(randomIndex).clone();
-            selectedItems.add(item);
+
+        if (itemData != null && !itemData.isEmpty()) {
+            while (selectedItems.size() < itemCount) {
+                int randomValue = random.nextInt(100);
+                boolean itemSelected = false;
+
+                for (Map<String, Object> item : itemData) {
+                    if (item.containsKey("weight")) {
+                        int weight = (int) item.get("weight");
+                        if (weight > randomValue) {
+                            ItemStack selectedItem = ItemUtil.getItemStacksFromConfig(Collections.singletonList(item))[0];
+                            // 检查是否已选择该物品
+                            if (!selectedItems.contains(selectedItem)) {
+                                selectedItems.add(selectedItem);
+                                itemSelected = true;
+                                break; // 选中后退出内层循环
+                            }
+                        }
+                    }
+                }
+                // 如果没有选中任何物品，退出循环，避免无限循环
+                if (!itemSelected) {
+                    break;
+                }
+            }
+            return selectedItems.toArray(new ItemStack[0]);
+        } else {
+            return null;
         }
-        return selectedItems.toArray(new ItemStack[0]);
     }
 }
