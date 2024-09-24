@@ -63,22 +63,14 @@ public class PlunderChest {
         if (itemData != null && !itemData.isEmpty()) {
             while (selectedItems.size() < itemCount) {
                 int randomValue = random.nextInt(100);
-                boolean itemSelected = false;
-
-                for (Map<String, Object> item : itemData) {
-                    if (item.containsKey("weight")) {
-                        int weight = (int) item.get("weight");
-                        if (weight > randomValue) {
-                            ItemStack selectedItem = ItemUtil.getItemStacksFromConfig(Collections.singletonList(item))[0];
-                            // 检查是否已选择该物品
-                            if (!selectedItems.contains(selectedItem)) {
-                                selectedItems.add(selectedItem);
-                                itemSelected = true;
-                                break; // 选中后退出内层循环
-                            }
-                        }
-                    }
-                }
+                boolean itemSelected = itemData.stream()
+                        .filter(item -> item.containsKey("weight"))
+                        .filter(item -> (int) item.get("weight") > randomValue)
+                        .map(item -> ItemUtil.getItemStacksFromConfig(Collections.singletonList(item))[0])
+                        .filter(selectedItem -> !selectedItems.contains(selectedItem))
+                        .findFirst() // 获取第一个符合条件的物品
+                        .map(selectedItems::add) // 如果存在，添加到 selectedItems
+                        .isPresent(); // 检查是否选中物品
                 // 如果没有选中任何物品，退出循环，避免无限循环
                 if (!itemSelected) {
                     break;
