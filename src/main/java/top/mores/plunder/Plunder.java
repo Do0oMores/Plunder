@@ -24,9 +24,7 @@ public final class Plunder extends JavaPlugin {
     public void onEnable() {
         instance = this;
         if (!VaultUtil.setupEconomy()) {
-            getLogger().severe("Vault plugin not found! Disabling plugin.");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
+            getLogger().warning("未检测到可用经济服务：请确认已安装 Vault + 经济插件。金币奖励功能将被跳过.");
         }
         initFiles();
         Objects.requireNonNull(getCommand("plunder")).setExecutor(new PlunderCommand());

@@ -14,6 +14,7 @@ public class VaultUtil {
     ConfigUtil config = new ConfigUtil();
     Random rand = new Random();
     static Economy economy;
+    private static boolean economyEnabled;
 
     private double randomAmount(double min, double max) {
         return rand.nextDouble((max - min) + 1) + min;
@@ -22,20 +23,27 @@ public class VaultUtil {
     //初始化经济
     public static boolean setupEconomy() {
         if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
+            economyEnabled = false;
             return false;
         }
         RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
+            economyEnabled = false;
             return false;
         }
         economy = rsp.getProvider();
+        economyEnabled = economy != null;
         return true;
     }
 
+    public static boolean isEconomyEnabled() {
+        return economyEnabled && economy != null;
+    }
+
+
     //增加玩家经济
     public void addPlayerVault(Player player, String lv) {
-        if (economy == null) {
-            System.out.println("Vault not setup");
+        if (!isEconomyEnabled()) {
             return;
         }
         double amount = Math.round(randomAmount(config.getMinVault(lv), config.getMaxVault(lv)) * 100.0 / 100.0);

@@ -8,3 +8,4 @@ commands:
   plunder:
     description: Plunder command
     usage: /plunder <>
+softdepend: [Vault]
